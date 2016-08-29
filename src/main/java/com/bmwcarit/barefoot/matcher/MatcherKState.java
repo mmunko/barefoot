@@ -185,22 +185,22 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
                     GeometryEngine.geometryToWkt(routes, WktExportFlags.wktExportMultiLineString));
         }
 
-        JSONArray candidates = new JSONArray();
-        for (MatcherCandidate candidate : vector()) {
-            JSONObject jsoncandidate = new JSONObject();
-            jsoncandidate.put("point", GeometryEngine.geometryToWkt(candidate.point().geometry(),
-                    WktExportFlags.wktExportPoint));
-            jsoncandidate.put("prob",
-                    Double.isInfinite(candidate.filtprob()) ? "Infinity" : candidate.filtprob());
-
-            routes = monitorRoute(candidate);
-            if (routes.getPathCount() > 0) {
-                jsoncandidate.put("route", GeometryEngine.geometryToWkt(routes,
-                        WktExportFlags.wktExportMultiLineString));
-            }
-            candidates.put(jsoncandidate);
-        }
-        json.put("candidates", candidates);
+        // JSONArray candidates = new JSONArray();
+        // for (MatcherCandidate candidate : vector()) {
+        //     JSONObject jsoncandidate = new JSONObject();
+        //     jsoncandidate.put("point", GeometryEngine.geometryToWkt(candidate.point().geometry(),
+        //             WktExportFlags.wktExportPoint));
+        //     jsoncandidate.put("prob",
+        //             Double.isInfinite(candidate.filtprob()) ? "Infinity" : candidate.filtprob());
+        //
+        //     routes = monitorRoute(candidate);
+        //     if (routes.getPathCount() > 0) {
+        //         jsoncandidate.put("route", GeometryEngine.geometryToWkt(routes,
+        //                 WktExportFlags.wktExportMultiLineString));
+        //     }
+        //     candidates.put(jsoncandidate);
+        // }
+        // json.put("candidates", candidates);
         return json;
     }
 
