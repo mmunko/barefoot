@@ -16,6 +16,8 @@ package com.bmwcarit.barefoot.matcher;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import com.bmwcarit.barefoot.markov.KState;
 import com.bmwcarit.barefoot.roadmap.Road;
@@ -185,22 +187,22 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
                     GeometryEngine.geometryToWkt(routes, WktExportFlags.wktExportMultiLineString));
         }
 
-        // JSONArray candidates = new JSONArray();
-        // for (MatcherCandidate candidate : vector()) {
-        //     JSONObject jsoncandidate = new JSONObject();
-        //     jsoncandidate.put("point", GeometryEngine.geometryToWkt(candidate.point().geometry(),
-        //             WktExportFlags.wktExportPoint));
-        //     jsoncandidate.put("prob",
-        //             Double.isInfinite(candidate.filtprob()) ? "Infinity" : candidate.filtprob());
-        //
-        //     routes = monitorRoute(candidate);
-        //     if (routes.getPathCount() > 0) {
-        //         jsoncandidate.put("route", GeometryEngine.geometryToWkt(routes,
-        //                 WktExportFlags.wktExportMultiLineString));
-        //     }
-        //     candidates.put(jsoncandidate);
-        // }
-        // json.put("candidates", candidates);
+
+        ArrayList<JSONObject> attributesArray = new ArrayList<JSONObject>();
+
+        for (MatcherSample sample : samples()) {
+          attributesArray.add(sample.attributes());
+        }
+
+        attributesArray.remove(attributesArray.size()-1);
+
+        Collections.reverse(attributesArray);
+        json.put("attributes",attributesArray);
+
+        json.put("engineOn", sample().engineOn());
+        json.put("speed", sample().speed());
+        json.put("treats", sample().attributes().getInt("treats"));
+
         return json;
     }
 

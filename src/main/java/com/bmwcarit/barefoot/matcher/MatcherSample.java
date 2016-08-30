@@ -30,6 +30,8 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
     private final String id;
     private final Point point;
     private final double azimuth;
+    private final JSONObject attributes;
+    private final int engineOn, speed;
 
     /**
      * Creates a {@link MatcherSample} object with measured position and time of measurement.
@@ -38,7 +40,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
      * @param point Point of measured position.
      */
     public MatcherSample(long time, Point point) {
-        this("", time, point);
+        this("", time, point, Double.NaN, new JSONObject(), -1, -1);
     }
 
     /**
@@ -50,7 +52,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
      * @param azimuth Azimuth of measurement sample.
      */
     public MatcherSample(long time, Point point, double azimuth) {
-        this("", time, point, azimuth);
+        this("", time, point, azimuth, new JSONObject(), -1, -1);
     }
 
     /**
@@ -62,7 +64,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
      * @param point Point of measured position.
      */
     public MatcherSample(String id, long time, Point point) {
-        this(id, time, point, Double.NaN);
+        this(id, time, point, Double.NaN, new JSONObject(), -1, -1);
     }
 
     /**
@@ -79,6 +81,19 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         this.id = id;
         this.point = point;
         this.azimuth = norm(azimuth);
+        this.attributes = new JSONObject();
+        this.engineOn = -1;
+        this.speed = -1;
+    }
+
+    public MatcherSample(String id, long time, Point point, double azimuth, JSONObject attributes, int engineOn ,int speed ) {
+        super(time);
+        this.id = id;
+        this.point = point;
+        this.azimuth = norm(azimuth);
+        this.attributes = attributes;
+        this.engineOn = engineOn;
+        this.speed = speed;
     }
 
     /**
@@ -99,6 +114,25 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         } else {
             azimuth = Double.NaN;
         }
+
+        if (json.has("attributes")) {
+            attributes = json.getJSONObject("attributes");
+        } else {
+            attributes = new JSONObject();
+        }
+
+        if (json.has("engineOn")) {
+            engineOn = json.getInt("engineOn");
+        } else {
+            engineOn = -1;
+        }
+
+        if (json.has("speed")) {
+          speed = json.getInt("speed");
+        } else {
+          speed = -1;
+        }
+
     }
 
     private static double norm(double azimuth) {
@@ -133,6 +167,18 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         return azimuth;
     }
 
+    public JSONObject attributes() {
+        return attributes;
+    }
+
+    public int engineOn () {
+        return engineOn;
+    }
+
+    public int speed() {
+        return speed;
+    }
+
     @Override
     public JSONObject toJSON() throws JSONException {
         JSONObject json = super.toJSON();
@@ -141,6 +187,16 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         if (!Double.isNaN(azimuth)) {
             json.put("azimuth", azimuth);
         }
+
+        if (engineOn != -1) {
+            json.put("engineOn",engineOn);
+        }
+
+        if (speed != -1){
+            json.put("speed",speed);
+        }
+
+        json.put("attributes",attributes);
         return json;
     }
 }
