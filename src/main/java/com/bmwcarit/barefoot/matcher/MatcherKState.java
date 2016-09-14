@@ -11,11 +11,11 @@
  * language governing permissions and limitations under the License.
  */
 
- // NOTICE this file was modified 
+ // NOTICE this file was modified
  //
  // Copyright (C) 2016, AI-MAPS s. r. o.
  //
- // Author: Milan Muňko <milan.munko@ai-maps.com>
+ // Author: Milan Munko <milan.munko@ai-maps.com>
  //
  // All modifications, contributions and changes are:
  //
@@ -217,6 +217,8 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
         json.put("engineOn", sample().engineOn());
         json.put("speed", sample().speed());
         json.put("treats", sample().attributes().getInt("treats"));
+        json.put("azimuth",sample().azimuth());
+        json.put("info",sample().info());
 
         return json;
     }

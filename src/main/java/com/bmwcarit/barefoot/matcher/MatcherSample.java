@@ -11,11 +11,11 @@
  * language governing permissions and limitations under the License.
  */
 
- // NOTICE this file was modified 
+ // NOTICE this file was modified
  //
  // Copyright (C) 2016, AI-MAPS s. r. o.
  //
- // Author: Milan Muňko <milan.munko@ai-maps.com>
+ // Author: Milan Munko <milan.munko@ai-maps.com>
  //
  // All modifications, contributions and changes are:
  //
@@ -46,6 +46,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
     private final Point point;
     private final double azimuth;
     private final JSONObject attributes;
+    private final JSONObject info;
     private final int engineOn, speed;
 
     /**
@@ -55,7 +56,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
      * @param point Point of measured position.
      */
     public MatcherSample(long time, Point point) {
-        this("", time, point, Double.NaN, new JSONObject(), -1, -1);
+        this("", time, point, Double.NaN, new JSONObject(), new JSONObject(), -1, -1);
     }
 
     /**
@@ -67,7 +68,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
      * @param azimuth Azimuth of measurement sample.
      */
     public MatcherSample(long time, Point point, double azimuth) {
-        this("", time, point, azimuth, new JSONObject(), -1, -1);
+        this("", time, point, azimuth, new JSONObject(), new JSONObject(), -1, -1);
     }
 
     /**
@@ -79,7 +80,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
      * @param point Point of measured position.
      */
     public MatcherSample(String id, long time, Point point) {
-        this(id, time, point, Double.NaN, new JSONObject(), -1, -1);
+        this(id, time, point, Double.NaN, new JSONObject(), new JSONObject(), -1, -1);
     }
 
     /**
@@ -97,6 +98,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         this.point = point;
         this.azimuth = norm(azimuth);
         this.attributes = new JSONObject();
+        this.info = new JSONObject();
         this.engineOn = -1;
         this.speed = -1;
     }
@@ -109,6 +111,18 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         this.attributes = attributes;
         this.engineOn = engineOn;
         this.speed = speed;
+        this.info = new JSONObject();
+    }
+
+    public MatcherSample(String id, long time, Point point, double azimuth, JSONObject attributes, JSONObject info, int engineOn ,int speed ) {
+        super(time);
+        this.id = id;
+        this.point = point;
+        this.azimuth = norm(azimuth);
+        this.attributes = attributes;
+        this.engineOn = engineOn;
+        this.speed = speed;
+        this.info = info;
     }
 
     /**
@@ -139,7 +153,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         if (json.has("engineOn")) {
             engineOn = json.getInt("engineOn");
         } else {
-            engineOn = -1;
+            engineOn = 1;
         }
 
         if (json.has("speed")) {
@@ -148,6 +162,11 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
           speed = -1;
         }
 
+        if (json.has("info")){
+          info = json.getJSONObject("info");
+        } else {
+          info = new JSONObject();
+        }
     }
 
     private static double norm(double azimuth) {
@@ -194,6 +213,10 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         return speed;
     }
 
+    public JSONObject info() {
+        return info;
+    }
+
     @Override
     public JSONObject toJSON() throws JSONException {
         JSONObject json = super.toJSON();
@@ -212,6 +235,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
         }
 
         json.put("attributes",attributes);
+        json.put("info",info);
         return json;
     }
 }
