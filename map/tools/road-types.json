@@ -99,6 +99,12 @@
               "id":117,
               "priority":3,
               "maxspeed":50
+            },
+            {
+              "name":"track",
+              "id": 118,
+              "priority": 3,
+              "maxspeed": 50
             }
           ]
       }
