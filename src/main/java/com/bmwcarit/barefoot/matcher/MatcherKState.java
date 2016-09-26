@@ -191,6 +191,19 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
         return routes;
     }
 
+    private ArrayList<JSONObject> monitorTransitions(MatcherCandidate candidate) throws JSONException {
+        ArrayList<JSONObject> transitions = new ArrayList<JSONObject>();
+        MatcherCandidate predecessor = candidate;
+        while (predecessor != null) {
+          MatcherTransition transition = predecessor.transition();
+          if (transition != null) {
+            transitions.add(transition.route().toJSON());
+          }
+          predecessor = predecessor.predecessor();
+        }
+        return transitions;
+    }
+
     public JSONObject toMonitorJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("time", sample().time());
@@ -213,7 +226,7 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
 
         Collections.reverse(attributesArray);
         json.put("attributes",attributesArray);
-
+        json.put("transitions",monitorTransitions(estimate()));
         json.put("engineOn", sample().engineOn());
         json.put("speed", sample().speed());
         json.put("treats", sample().attributes().getInt("treats"));
