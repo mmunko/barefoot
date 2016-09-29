@@ -192,6 +192,21 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
         return routes;
     }
 
+    // transitions implementation v1
+    private ArrayList<JSONObject> monitorTransitions(MatcherCandidate candidate) throws JSONException {
+        ArrayList<JSONObject> transitions = new ArrayList<JSONObject>();
+        MatcherCandidate predecessor = candidate;
+        while (predecessor != null) {
+          MatcherTransition transition = predecessor.transition();
+          if (transition != null) {
+            transitions.add(transition.route().toJSON());
+          }
+          predecessor = predecessor.predecessor();
+        }
+        return transitions;
+    }
+
+    //  transitions implementation v2
     // private List<List<Integer>> monitorTransitions(MatcherCandidate candidate) throws JSONException {
     //     List<List<Integer>> transitions = new ArrayList<List<Integer>>();
     //     MatcherCandidate predecessor = candidate;
@@ -210,7 +225,7 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
     //     return transitions;
     // }
 
-    public JSONObject toMonitorJSON() throws JSONException {
+  public JSONObject toMonitorJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("time", sample().time());
         json.put("point", GeometryEngine.geometryToWkt(estimate().point().geometry(),
@@ -232,7 +247,7 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
 
         Collections.reverse(attributesArray);
         json.put("attributes",attributesArray);
-        // json.put("transitions",monitorTransitions(estimate()));
+        json.put("transitions",monitorTransitions(estimate()));
         json.put("engineOn", sample().engineOn());
         json.put("speed", sample().speed());
         json.put("treats", sample().attributes().getInt("treats"));

@@ -27,7 +27,7 @@ subscriber.subscribe("");
 subscriber.on('message', function(message) {
 	update = JSON.parse(message);
 	id = update['id'];
-	
+
 	if (buffer && id in objects && objects[id]['time'] >= update['time']) {
 		console.log('warning: out of order update for object ' + id);
 		return;
@@ -48,7 +48,7 @@ subscriber.on('message', function(message) {
 			objects[id] = update;
 		}
 	}
-	
+	// console.log(update);
 	io.emit('message', update);
 });
 
@@ -57,7 +57,7 @@ var express = require('express')
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
- 
+
 app.use(express.static(path.join(__dirname, './public')));
 
 app.get('/', function(req, res) {
@@ -76,7 +76,7 @@ io.on('connection', function(socket) {
 			socket.emit('message', objects[id]);
 		}
     }
-    
+
     socket.on('disconnect', function() {
         console.log('client disconnected');
     });
