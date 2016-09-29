@@ -95,16 +95,16 @@
               "maxspeed":50
             },
             {
+              "name":"track",
+              "id": 118,
+              "priority": 5,
+              "maxspeed": 50
+            },
+            {
               "name":"unclassified",
               "id":117,
               "priority":3,
               "maxspeed":50
-            },
-            {
-              "name":"track",
-              "id": 118,
-              "priority": 3,
-              "maxspeed": 50
             }
           ]
       }

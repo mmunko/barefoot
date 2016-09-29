@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 import com.bmwcarit.barefoot.markov.KState;
@@ -191,18 +192,23 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
         return routes;
     }
 
-    private ArrayList<JSONObject> monitorTransitions(MatcherCandidate candidate) throws JSONException {
-        ArrayList<JSONObject> transitions = new ArrayList<JSONObject>();
-        MatcherCandidate predecessor = candidate;
-        while (predecessor != null) {
-          MatcherTransition transition = predecessor.transition();
-          if (transition != null) {
-            transitions.add(transition.route().toJSON());
-          }
-          predecessor = predecessor.predecessor();
-        }
-        return transitions;
-    }
+    // private List<List<Integer>> monitorTransitions(MatcherCandidate candidate) throws JSONException {
+    //     List<List<Integer>> transitions = new ArrayList<List<Integer>>();
+    //     MatcherCandidate predecessor = candidate;
+    //     while (predecessor != null) {
+    //       MatcherTransition transition = predecessor.transition();
+    //       if (transition != null) {
+    //         List<Integer> roads = new ArrayList<Integer>();
+    //         JSONArray roadsOrigin = transition.route().toJSON().getJSONArray("roads");
+    //         for (int i = 0; i < roadsOrigin.length(); i++ ) {
+    //           roads.add(roadsOrigin.getJSONObject(i).getInt("road"));
+    //         }
+    //         transitions.add(roads);
+    //       }
+    //       predecessor = predecessor.predecessor();
+    //     }
+    //     return transitions;
+    // }
 
     public JSONObject toMonitorJSON() throws JSONException {
         JSONObject json = new JSONObject();
@@ -226,13 +232,14 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
 
         Collections.reverse(attributesArray);
         json.put("attributes",attributesArray);
-        json.put("transitions",monitorTransitions(estimate()));
+        // json.put("transitions",monitorTransitions(estimate()));
         json.put("engineOn", sample().engineOn());
         json.put("speed", sample().speed());
         json.put("treats", sample().attributes().getInt("treats"));
         json.put("azimuth",sample().azimuth());
         json.put("info",sample().info());
 
+        // System.out.println(json.toString());
         return json;
     }
 
