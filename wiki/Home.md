@@ -196,7 +196,7 @@ mvn install -DskipTests
 <dependency>
 		<groupId>com.bmw-carit</groupId>
 		<artifactId>barefoot</artifactId>
-		<version>0.1.0</version>
+		<version>VERSION</version>
 </dependency>
   ```
 
@@ -311,7 +311,7 @@ mvn package
 3. Start server with standard configuration for map server and map matching, and option for GeoJSON output format.
 
   ``` bash
-java -jar target/barefoot-0.1.0-jar-with-dependencies.jar [--slimjson|--debug|--geojson] /path/to/server/properties /path/to/mapserver/properties
+java -jar target/barefoot-<VERSION>-matcher-jar-with-dependencies.jar [--slimjson|--debug|--geojson] /path/to/server/properties /path/to/mapserver/properties
   ```
 
   _Note: Stop server with Ctrl-c._
@@ -346,7 +346,7 @@ A map matching request is a text message with a JSON array of JSON objects in th
   - `id` is user-specific identifier and has no further meaning for map matching or the server.
   - `time` is a timestamp in milliseconds unix epoch time.
   - `point` is a position (measurement) in WKT (well-known-text) format and with WGS-84 projection (SRID 4326). (In other words, this may be any GPS position in WKT format.)
-  - `heading` is (optional) heading information of the object given as azimuth in degrees from north clockwise.
+  - `azimuth` is (optional) heading information of the object given as azimuth in degrees from north clockwise.
 
 ##### Response message formats
 
@@ -384,7 +384,7 @@ mvn package
 3. Start tracker with standard configuration for map server, map matching, and tracking.
 
   ``` bash
-java -jar target/barefoot-0.1.0-tracker-jar-with-dependencies.jar config/tracker.properties config/oberbayern.properties
+java -jar target/barefoot-<VERSION>-tracker-jar-with-dependencies.jar config/tracker.properties config/oberbayern.properties
   ```
 
   _Note: Stop server with Ctrl-c._
@@ -435,7 +435,7 @@ A position update is a text message with a JSON object of the following form:
   - `id` is user-specific identifier and has no further meaning for map matching or the server.
   - `time` is a timestamp in milliseconds unix epoch time.
   - `point` is a position (measurement) in WKT (well-known-text) format and with WGS-84 projection (SRID 4326). (In other words, this may be any GPS position in WKT format.)
-  - `heading` is (optional) heading information of the object given as azimuth in degrees from north clockwise.
+  - `azimuth` is (optional) heading information of the object given as azimuth in degrees from north clockwise.
 
 
 ### Parameters
