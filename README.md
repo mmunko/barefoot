@@ -41,6 +41,12 @@ Barefoot provides a HMM map matching solution that can be used via the software 
 - __Offline map matching__: Most map matching applications rely on the matching of a sequence of position measurements recorded in the past (traces) for reconstruction of the object's path on the map. Offline map matching finds the best matching  on the map and exploits availability of the full trace.
 - __Online map matching__: In many other applications, objects send position updates to some monitoring system periodically. An online map matching system matches each position update right away and, hence, keeps track of the objects' movements on the map in (near) real-time.
 
+Accuracy of map matching depends mostly on the quality and quantity of input data, which consists of a sequence of measurement samples over time (including position measurement). Samples are submitted as a whole sequence for offline map matching or one after another for online map matching. A single sample includes the following information:
+
+- __time__ of the measurement sample which is given in unix time.
+- __position__ of the object (point in space, e.g. GPS measurement).
+- __heading__ of the object (azimuth measurement) which is optional and, if available, increases map matching accuracy.
+
 #### Matcher server (Quick Start)
 
 Map matching of a GPS trace (violet markers) in Munich city area shown as geometrical path (orange path)
@@ -115,7 +121,7 @@ mvn package
 3. Start server with standard configuration for map server and map matching, and option for GeoJSON output format.
 
   ``` bash
-java -jar target/barefoot-0.1.0-server-jar-with-dependencies.jar --geojson config/server.properties config/oberbayern.properties
+java -jar target/barefoot-<VERSION>-matcher-jar-with-dependencies.jar --geojson config/server.properties config/oberbayern.properties
   ```
 
   _Note: Stop server with Ctrl-c._
@@ -166,7 +172,7 @@ mvn package
 3. Start tracker with standard configuration for map server, map matching, and tracking.
 
   ``` bash
-java -jar target/barefoot-0.1.0-tracker-jar-with-dependencies.jar config/tracker.properties config/oberbayern.properties
+java -jar target/barefoot-<VERSION>-tracker-jar-with-dependencies.jar config/tracker.properties config/oberbayern.properties
   ```
 
   _Note: Stop server with Ctrl-c._
