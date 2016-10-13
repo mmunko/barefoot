@@ -227,7 +227,7 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
 
   public JSONObject toMonitorJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("time", sample().time());
+        json.put("time", System.currentTimeMillis());
         json.put("point", GeometryEngine.geometryToWkt(estimate().point().geometry(),
                 WktExportFlags.wktExportPoint));
         Polyline routes = monitorRoute(estimate());
