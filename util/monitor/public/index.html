@@ -291,9 +291,10 @@ html, body, #map {
 					object.state = update;
 					object.setGeometry(geometry);
 
-					if (route.getFeatureById(update.id) != undefined) {
-						showRoute(update);
-					}
+					// if (route.getFeatureById(update.id) != undefined) {
+					// 	showRoute(update);
+					// }
+					showRoute(update);
 
 					if (focus != null && focus.id == update.id) {
 						showFocus(update);

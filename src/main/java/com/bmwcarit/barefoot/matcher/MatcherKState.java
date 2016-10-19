@@ -247,7 +247,7 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
 
         Collections.reverse(attributesArray);
         json.put("attributes",attributesArray);
-        json.put("transitions",monitorTransitions(estimate()));
+        // json.put("transitions",monitorTransitions(estimate()));
         json.put("engineOn", sample().engineOn());
         json.put("speed", sample().speed());
         json.put("treats", sample().attributes().getInt("treats"));

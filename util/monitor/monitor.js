@@ -48,7 +48,7 @@ subscriber.on('message', function(message) {
 			objects[id] = update;
 		}
 	}
-	// console.log(update);
+	console.log(update);
 	io.emit('message', update);
 });
 

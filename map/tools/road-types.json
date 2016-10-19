@@ -73,37 +73,37 @@
             {
               "name":"residential",
               "id":112,
-              "priority":2.5,
+              "priority":1.6,
               "maxspeed":50
             },
             {
               "name":"living_street",
               "id":113,
-              "priority":3,
+              "priority":1.8,
               "maxspeed":20
             },
             {
               "name":"service",
               "id":114,
-              "priority":5,
+              "priority":1.8,
               "maxspeed":50
             },
             {
               "name":"road",
               "id":115,
-              "priority":5,
+              "priority":1.8,
               "maxspeed":50
             },
             {
               "name":"track",
               "id": 118,
-              "priority": 5,
+              "priority": 2.1,
               "maxspeed": 50
             },
             {
               "name":"unclassified",
               "id":117,
-              "priority":3,
+              "priority": 2.1,
               "maxspeed":50
             }
           ]
