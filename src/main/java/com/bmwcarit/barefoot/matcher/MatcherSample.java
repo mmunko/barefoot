@@ -47,7 +47,7 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
     private final double azimuth;
     private final JSONObject attributes;
     private final JSONObject info;
-    private final int engineOn, speed;
+    private int engineOn, speed;
 
     /**
      * Creates a {@link MatcherSample} object with measured position and time of measurement.
@@ -215,6 +215,10 @@ public class MatcherSample extends com.bmwcarit.barefoot.markov.Sample {
 
     public JSONObject info() {
         return info;
+    }
+
+    public void setEngineOn(int newEngineOn){
+        this.engineOn = newEngineOn;
     }
 
     @Override

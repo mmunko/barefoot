@@ -170,6 +170,7 @@ public class TrackerServer extends AbstractServer {
                                     if (spatial.distance(sample.point(),
                                             state.inner.sample().point()) < Math.max(0, distance)) {
                                         // state.unlock();
+                                        state.inner.sample().setEngineOn(sample.engineOn());
                                         state.updateAndUnlock(TTL, true);
                                         logger.debug("received sample below distance threshold");
                                         return RESULT.SUCCESS;
