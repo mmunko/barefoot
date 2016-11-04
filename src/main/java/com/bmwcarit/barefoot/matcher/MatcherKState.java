@@ -88,7 +88,6 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
      */
     public JSONObject toGeoJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("type", "MultiLineString");
         JSONArray jsonsequence = new JSONArray();
         if (this.sequence() != null) {
             for (MatcherCandidate candidate : this.sequence()) {
@@ -100,7 +99,22 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
                 jsonsequence.put(jsoncandidate.getJSONArray("coordinates"));
             }
         }
-        json.put("coordinates", jsonsequence);
+
+        ArrayList<JSONObject> attributesArray = new ArrayList<JSONObject>();
+
+        for (MatcherSample sample : samples()) {
+          attributesArray.add(sample.attributes());
+        }
+
+        attributesArray.remove(attributesArray.size()-1);
+        json.put("attributes",attributesArray);
+        json.put("id",sample().id());
+        // json.put("engineOn", sample().engineOn());
+        // json.put("speed", sample().speed());
+        // json.put("treats", sample().attributes().getInt("treats"));
+        // json.put("azimuth",sample().azimuth());
+        // json.put("info",sample().info());
+        json.put("route", jsonsequence);
         return json;
     }
 
@@ -193,18 +207,18 @@ public class MatcherKState extends KState<MatcherCandidate, MatcherTransition, M
     }
 
     // transitions implementation v1
-    private ArrayList<JSONObject> monitorTransitions(MatcherCandidate candidate) throws JSONException {
-        ArrayList<JSONObject> transitions = new ArrayList<JSONObject>();
-        MatcherCandidate predecessor = candidate;
-        while (predecessor != null) {
-          MatcherTransition transition = predecessor.transition();
-          if (transition != null) {
-            transitions.add(transition.route().toJSON());
-          }
-          predecessor = predecessor.predecessor();
-        }
-        return transitions;
-    }
+    // private ArrayList<JSONObject> monitorTransitions(MatcherCandidate candidate) throws JSONException {
+    //     ArrayList<JSONObject> transitions = new ArrayList<JSONObject>();
+    //     MatcherCandidate predecessor = candidate;
+    //     while (predecessor != null) {
+    //       MatcherTransition transition = predecessor.transition();
+    //       if (transition != null) {
+    //         transitions.add(transition.route().toJSON());
+    //       }
+    //       predecessor = predecessor.predecessor();
+    //     }
+    //     return transitions;
+    // }
 
     //  transitions implementation v2
     // private List<List<Integer>> monitorTransitions(MatcherCandidate candidate) throws JSONException {
